@@ -16,7 +16,6 @@
       .then(function (data) {
         products = data.filter(function (p) { return p.active; });
 
-        /* Share products with cart */
         if (window.AcculoeCart) {
           window.AcculoeCart.setProducts(products);
         }
@@ -24,7 +23,6 @@
         buildGrid();
         bindHotspots();
 
-        /* Init scroll animations after grid exists */
         if (window.AcculoeTransitions) {
           window.AcculoeTransitions.initScrollFade();
         }
@@ -56,21 +54,14 @@
           '<div class="product-card-price">$' + p.price.toFixed(2) + '</div>' +
         '</div>';
 
-      /* Click opens product panel */
       (function (product) {
         card.addEventListener('click', function () {
+          if (window.AcculoeAudio) {
+            window.AcculoeAudio.playClick();
+          }
           openPanel(product);
         });
       })(p);
-
-      /* Hover sound */
-      (function () {
-        card.addEventListener('mouseenter', function () {
-          if (window.AcculoeAudio) {
-            window.AcculoeAudio.playHover();
-          }
-        });
-      })();
 
       grid.appendChild(card);
     }
@@ -92,13 +83,10 @@
 
         hotspot.addEventListener('click', function (e) {
           e.stopPropagation();
-          openPanel(product);
-        });
-
-        hotspot.addEventListener('mouseenter', function () {
           if (window.AcculoeAudio) {
-            window.AcculoeAudio.playHover();
+            window.AcculoeAudio.playClick();
           }
+          openPanel(product);
         });
       })(hotspots[i]);
     }
@@ -125,12 +113,10 @@
     var priceEl = document.getElementById('panel-price');
     var addBtn = document.getElementById('btn-add');
 
-    /* Close cart if open */
     if (window.AcculoeCart) {
       window.AcculoeCart.closeCart();
     }
 
-    /* Fill content */
     if (imageEl) {
       imageEl.innerHTML = '<img src="' + product.image + '" alt="' + product.name + '" onerror="this.style.display=\'none\'">';
     }
@@ -139,13 +125,11 @@
     if (descEl) descEl.textContent = product.description;
     if (priceEl) priceEl.textContent = '$' + product.price.toFixed(2);
 
-    /* Reset add button */
     if (addBtn) {
       addBtn.textContent = 'Add to Room';
       addBtn.classList.remove('added');
     }
 
-    /* Show panel */
     if (panel) panel.classList.add('active');
     if (overlay) overlay.classList.add('active');
   }
@@ -165,6 +149,10 @@
 
     if (window.AcculoeCart) {
       window.AcculoeCart.add(currentProduct.id);
+    }
+
+    if (window.AcculoeAudio) {
+      window.AcculoeAudio.playCart();
     }
 
     var btn = document.getElementById('btn-add');
@@ -187,15 +175,12 @@
     if (!gate || !enterBtn) return;
 
     enterBtn.addEventListener('click', function () {
-      /* Dissolve the gate */
       gate.classList.add('gone');
 
-      /* Start audio */
       if (window.AcculoeAudio) {
         window.AcculoeAudio.start();
       }
 
-      /* Fade in room image */
       var heroBg = document.getElementById('hero-bg');
       if (heroBg) {
         setTimeout(function () {
@@ -203,7 +188,6 @@
         }, 400);
       }
 
-      /* Remove gate from DOM after transition */
       setTimeout(function () {
         if (gate.parentNode) {
           gate.parentNode.removeChild(gate);
@@ -217,7 +201,6 @@
     initGate();
     loadProducts();
 
-    /* Panel close button */
     var closeBtn = document.getElementById('panel-close');
     if (closeBtn) {
       closeBtn.addEventListener('click', function () {
@@ -225,7 +208,6 @@
       });
     }
 
-    /* Add to Room button */
     var addBtn = document.getElementById('btn-add');
     if (addBtn) {
       addBtn.addEventListener('click', function (e) {
@@ -234,7 +216,6 @@
       });
     }
 
-    /* Preload room image */
     var heroBg = document.getElementById('hero-bg');
     if (heroBg) {
       var img = new Image();
@@ -245,7 +226,6 @@
     }
   }
 
-  /* --- Run --- */
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
