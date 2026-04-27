@@ -1,103 +1,101 @@
 (function () {
   'use strict';
 
-  const AUDIO = {
-    whisper: { src: 'audio/acculoe-built-quiet.mp3', volume: 0.4, loop: false },
-    thock01: { src: 'audio/thock-01.mp3', volume: 0.28, loop: false },
-    thock02: { src: 'audio/thock-02.mp3', volume: 0.28, loop: false },
-    thock03: { src: 'audio/thock-03.mp3', volume: 0.28, loop: false },
-    click: { src: 'audio/click-soft.mp3', volume: 0.15, loop: false },
-    cart: { src: 'audio/cart-confirm.mp3', volume: 0.18, loop: false }
-  };
+  var muted = localStorage.getItem('acculoe-muted') === 'true';
+  var started = false;
 
-  const elements = {};
-  let muted = localStorage.getItem('acculoe-muted') === 'true';
-  let started = false;
-  let thockInterval = null;
+  /* ── Audio elements ─────────────────────────── */
+  var whisper = new Audio('audio/acculoe-built-quiet.mp3');
+  whisper.volume = 0.4;
+  whisper.preload = 'auto';
 
-  function init() {
-    Object.keys(AUDIO).forEach(function (key) {
-      var a = new Audio(AUDIO[key].src);
-      a.volume = muted ? 0 : AUDIO[key].volume;
-      a.loop = AUDIO[key].loop;
-      a.preload = 'auto';
-      elements[key] = a;
-    });
+  var piano = new Audio('audio/ambient-piano.mp3');
+  piano.volume = 0;
+  piano.loop = true;
+  piano.preload = 'auto';
+
+  var click = new Audio('audio/click-soft.mp3');
+  click.volume = 0.15;
+  click.preload = 'auto';
+
+  var cart = new Audio('audio/cart-confirm.mp3');
+  cart.volume = 0.18;
+  cart.preload = 'auto';
+
+  /* ── Fade helper ────────────────────────────── */
+  function fadeTo(audio, target, duration) {
+    var steps = 30;
+    var interval = duration / steps;
+    var delta = (target - audio.volume) / steps;
+    var step = 0;
+    var timer = setInterval(function () {
+      step++;
+      audio.volume = Math.min(1, Math.max(0, audio.volume + delta));
+      if (step >= steps) {
+        audio.volume = Math.min(1, Math.max(0, target));
+        clearInterval(timer);
+      }
+    }, interval);
   }
 
-  function playSound(key) {
-    if (muted || !started || !elements[key]) return;
-    var el = elements[key];
-    el.currentTime = 0;
-    el.volume = AUDIO[key].volume;
-    el.play().catch(function () {});
-  }
-
-  function randomThock() {
-    var keys = ['thock01', 'thock02', 'thock03'];
-    var pick = keys[Math.floor(Math.random() * keys.length)];
-    playSound(pick);
-  }
-
-  function startThockLoop() {
-    if (thockInterval) return;
-    function scheduleNext() {
-      var delay = 8000 + Math.random() * 12000;
-      thockInterval = setTimeout(function () {
-        randomThock();
-        scheduleNext();
-      }, delay);
-    }
-    scheduleNext();
-  }
-
-  function stopThockLoop() {
-    if (thockInterval) {
-      clearTimeout(thockInterval);
-      thockInterval = null;
-    }
-  }
-
+  /* ── Start (called on gate enter) ───────────── */
   function start() {
     if (started) return;
     started = true;
+    if (muted) return;
 
     setTimeout(function () {
-      playSound('whisper');
+      if (!muted) {
+        whisper.currentTime = 0;
+        whisper.play().catch(function () {});
+      }
     }, 3000);
 
-    startThockLoop();
+    setTimeout(function () {
+      if (!muted) {
+        piano.currentTime = 0;
+        piano.play().catch(function () {});
+        fadeTo(piano, 0.18, 4000);
+      }
+    }, 6000);
   }
 
+  /* ── Mute toggle ────────────────────────────── */
   function toggleMute() {
     muted = !muted;
     localStorage.setItem('acculoe-muted', muted);
 
-    Object.keys(elements).forEach(function (key) {
-      elements[key].volume = muted ? 0 : AUDIO[key].volume;
-    });
-
     if (muted) {
-      stopThockLoop();
+      whisper.pause();
+      piano.pause();
     } else if (started) {
-      startThockLoop();
+      piano.volume = 0;
+      piano.play().catch(function () {});
+      fadeTo(piano, 0.18, 2000);
     }
 
     return muted;
   }
 
-  function isMuted() {
-    return muted;
+  /* ── UI sounds ──────────────────────────────── */
+  function playClick() {
+    if (muted) return;
+    click.currentTime = 0;
+    click.play().catch(function () {});
   }
 
-  init();
+  function playCart() {
+    if (muted) return;
+    cart.currentTime = 0;
+    cart.play().catch(function () {});
+  }
 
+  /* ── Public API ─────────────────────────────── */
   window.AcculoeAudio = {
     start: start,
     toggleMute: toggleMute,
-    isMuted: isMuted,
-    playClick: function () { playSound('click'); },
-    playCart: function () { playSound('cart'); },
-    playThock: function () { randomThock(); }
+    isMuted: function () { return muted; },
+    playClick: playClick,
+    playCart: playCart
   };
 })();

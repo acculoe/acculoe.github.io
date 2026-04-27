@@ -196,9 +196,30 @@
     });
   }
 
+  /* --- Mute toggle --- */
+  function initMuteToggle() {
+    var muteBtn = document.getElementById('mute-toggle');
+    if (!muteBtn) return;
+
+    if (window.AcculoeAudio && window.AcculoeAudio.isMuted()) {
+      muteBtn.classList.add('is-muted');
+    }
+
+    muteBtn.addEventListener('click', function () {
+      if (!window.AcculoeAudio) return;
+      var nowMuted = window.AcculoeAudio.toggleMute();
+      if (nowMuted) {
+        muteBtn.classList.add('is-muted');
+      } else {
+        muteBtn.classList.remove('is-muted');
+      }
+    });
+  }
+
   /* --- Init --- */
   function init() {
     initGate();
+    initMuteToggle();
     loadProducts();
 
     var closeBtn = document.getElementById('panel-close');
