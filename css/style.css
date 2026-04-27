@@ -100,9 +100,6 @@ img {
   position: relative;
   width: 100%;
   height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
   background: #0a0a0a;
 }
@@ -122,7 +119,6 @@ img {
   opacity: 1;
 }
 
-/* fallback gradient when no room image */
 .hero-gradient {
   position: absolute;
   inset: 0;
@@ -135,9 +131,12 @@ img {
 .hero-text {
   position: absolute;
   z-index: 10;
+  left: 46%;
+  top: 28%;
+  transform: translate(-50%, -50%);
   text-align: center;
   opacity: 0;
-  animation: heroFadeIn 1.5s ease 0.5s forwards;
+  animation: heroTextFade 1.5s ease 0.5s forwards;
 }
 
 .hero-title {
@@ -145,36 +144,20 @@ img {
   font-weight: 700;
   letter-spacing: 0.2em;
   margin-bottom: 0.75rem;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.8);
 }
 
 .hero-tagline {
   font-size: 0.875rem;
   font-weight: 400;
   letter-spacing: 0.1em;
-  color: #7a7a7a;
+  color: #c0c0c0;
+  text-shadow: 0 2px 15px rgba(0, 0, 0, 0.9);
 }
 
-.hero-enter {
-  margin-top: 3rem;
-  font-size: 0.625rem;
-  font-weight: 500;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: #7a7a7a;
-  opacity: 0;
-  animation: heroPulse 3s ease 2s infinite;
-}
-
-@keyframes heroFadeIn {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes heroPulse {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.7; }
+@keyframes heroTextFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 /* --- ROOM HOTSPOTS --- */
@@ -251,15 +234,15 @@ img {
 .scroll-cue {
   position: absolute;
   bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
+  right: 0;
   z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
   opacity: 0;
-  animation: heroFadeIn 1s ease 3s forwards;
+  animation: scrollCueFade 1s ease 3s forwards;
 }
 
 .scroll-cue span {
@@ -274,6 +257,11 @@ img {
   height: 32px;
   background: linear-gradient(to bottom, #7a7a7a, transparent);
   animation: scrollDrift 2s ease infinite;
+}
+
+@keyframes scrollCueFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes scrollDrift {
@@ -800,7 +788,7 @@ img {
   gap: 3px;
   cursor: pointer;
   opacity: 0;
-  animation: heroFadeIn 1s ease 4s forwards;
+  animation: muteFadeIn 1s ease 4s forwards;
 }
 
 .mute-bar {
@@ -824,6 +812,11 @@ img {
 .mute-toggle.muted .mute-bar {
   opacity: 0.3;
   height: 6px;
+}
+
+@keyframes muteFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes muteWave {
@@ -858,6 +851,11 @@ img {
 
   .hero-bg {
     background-image: url('../img/room-mobile.png');
+  }
+
+  .hero-text {
+    left: 50%;
+    top: 35%;
   }
 
   .hotspot {
