@@ -874,10 +874,10 @@ img {
     aspect-ratio: 16 / 10;
   }
 
-    .hero-text {
+   .hero-text {
     left: 50%;
-    top: auto;
-    bottom: 3rem;
+    top: auto !important;
+    bottom: 0;
     transform: translateX(-50%);
   }
 
