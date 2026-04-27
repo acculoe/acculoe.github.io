@@ -4,53 +4,23 @@
   var muted = localStorage.getItem('acculoe-muted') === 'true';
   var started = false;
 
-  /* ── Create audio element ───────────────────── */
-  function makeAudio(src, vol) {
-    var a = new Audio(src);
-    a.volume = vol;
-    a.preload = 'auto';
-    return a;
-  }
-
-  /* ── Audio pool — fixes mobile replay lag ───── */
-  function makePool(src, vol, size) {
-    var pool = [];
-    for (var i = 0; i < size; i++) {
-      pool.push(makeAudio(src, vol));
-    }
-    var index = 0;
-    return {
-      play: function () {
-        if (muted) return;
-        var a = pool[index];
-        index = (index + 1) % pool.length;
-        a.currentTime = 0;
-        a.play().catch(function () {});
-      },
-      unlock: function () {
-        pool.forEach(function (a) {
-          var v = a.volume;
-          a.volume = 0;
-          a.play().then(function () {
-            a.pause();
-            a.currentTime = 0;
-            a.volume = v;
-          }).catch(function () {
-            a.volume = v;
-          });
-        });
-      }
-    };
-  }
-
   /* ── Audio elements ─────────────────────────── */
-  var whisper = makeAudio('audio/acculoe-built-quiet.mp3', 0.4);
+  var whisper = new Audio('audio/acculoe-built-quiet.mp3');
+  whisper.volume = 0.4;
+  whisper.preload = 'auto';
 
-  var piano = makeAudio('audio/ambient-piano.mp3', 0);
+  var piano = new Audio('audio/ambient-piano.mp3');
+  piano.volume = 0;
   piano.loop = true;
+  piano.preload = 'auto';
 
-  var clickPool = makePool('audio/click-soft.mp3', 0.15, 4);
-  var cartPool = makePool('audio/cart-confirm.mp3', 0.18, 3);
+  /* ── Clone-based sound player (no lag, no glitch) ── */
+  function playSound(src, vol) {
+    if (muted) return;
+    var s = new Audio(src);
+    s.volume = vol;
+    s.play().catch(function () {});
+  }
 
   /* ── Fade helper ────────────────────────────── */
   function fadeTo(audio, target, duration) {
@@ -68,18 +38,10 @@
     }, interval);
   }
 
-  /* ── Unlock all pools (silent, on gate tap) ─── */
-  function unlockAll() {
-    clickPool.unlock();
-    cartPool.unlock();
-  }
-
   /* ── Start (called on gate enter) ───────────── */
   function start() {
     if (started) return;
     started = true;
-
-    unlockAll();
 
     if (muted) return;
 
@@ -122,7 +84,7 @@
     start: start,
     toggleMute: toggleMute,
     isMuted: function () { return muted; },
-    playClick: function () { clickPool.play(); },
-    playCart: function () { cartPool.play(); }
+    playClick: function () { playSound('audio/click-soft.mp3', 0.15); },
+    playCart: function () { playSound('audio/cart-confirm.mp3', 0.18); }
   };
 })();

@@ -132,6 +132,8 @@
 
     if (panel) panel.classList.add('active');
     if (overlay) overlay.classList.add('active');
+
+    document.body.style.overflow = 'hidden';
   }
 
   /* --- Close product panel --- */
@@ -141,6 +143,7 @@
     if (panel) panel.classList.remove('active');
     if (overlay) overlay.classList.remove('active');
     currentProduct = null;
+    document.body.style.overflow = '';
   }
 
   /* --- Add to Room button --- */
@@ -201,25 +204,43 @@
     var muteBtn = document.getElementById('mute-toggle');
     if (!muteBtn) return;
 
+    /* Set initial state */
     if (window.AcculoeAudio && window.AcculoeAudio.isMuted()) {
-      muteBtn.classList.add('is-muted');
+      muteBtn.classList.add('muted');
+      muteBtn.classList.remove('playing');
+    } else {
+      muteBtn.classList.add('playing');
+      muteBtn.classList.remove('muted');
     }
 
     muteBtn.addEventListener('click', function () {
       if (!window.AcculoeAudio) return;
       var nowMuted = window.AcculoeAudio.toggleMute();
       if (nowMuted) {
-        muteBtn.classList.add('is-muted');
+        muteBtn.classList.add('muted');
+        muteBtn.classList.remove('playing');
       } else {
-        muteBtn.classList.remove('is-muted');
+        muteBtn.classList.remove('muted');
+        muteBtn.classList.add('playing');
       }
     });
+  }
+
+  /* --- Overlay click closes panel --- */
+  function initOverlay() {
+    var overlay = document.getElementById('panel-overlay');
+    if (overlay) {
+      overlay.addEventListener('click', function () {
+        closePanel();
+      });
+    }
   }
 
   /* --- Init --- */
   function init() {
     initGate();
     initMuteToggle();
+    initOverlay();
     loadProducts();
 
     var closeBtn = document.getElementById('panel-close');
