@@ -874,9 +874,11 @@ img {
     aspect-ratio: 16 / 10;
   }
 
-  .hero-text {
+    .hero-text {
     left: 50%;
-    top: 30%;
+    top: auto;
+    bottom: 3rem;
+    transform: translateX(-50%);
   }
 
   .hero-title {
@@ -888,8 +890,8 @@ img {
     font-size: 0.6875rem;
   }
 
-  .scroll-cue {
-    bottom: 0.5rem;
+   .scroll-cue {
+    display: none;
   }
 
   .scroll-cue span {
