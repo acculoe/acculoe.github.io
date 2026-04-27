@@ -3,43 +3,54 @@
 
   var muted = localStorage.getItem('acculoe-muted') === 'true';
   var started = false;
-  var unlocked = false;
+
+  /* ── Create audio element ───────────────────── */
+  function makeAudio(src, vol) {
+    var a = new Audio(src);
+    a.volume = vol;
+    a.preload = 'auto';
+    return a;
+  }
+
+  /* ── Audio pool — fixes mobile replay lag ───── */
+  function makePool(src, vol, size) {
+    var pool = [];
+    for (var i = 0; i < size; i++) {
+      pool.push(makeAudio(src, vol));
+    }
+    var index = 0;
+    return {
+      play: function () {
+        if (muted) return;
+        var a = pool[index];
+        index = (index + 1) % pool.length;
+        a.currentTime = 0;
+        a.play().catch(function () {});
+      },
+      unlock: function () {
+        pool.forEach(function (a) {
+          var v = a.volume;
+          a.volume = 0;
+          a.play().then(function () {
+            a.pause();
+            a.currentTime = 0;
+            a.volume = v;
+          }).catch(function () {
+            a.volume = v;
+          });
+        });
+      }
+    };
+  }
 
   /* ── Audio elements ─────────────────────────── */
-  var whisper = new Audio('audio/acculoe-built-quiet.mp3');
-  whisper.volume = 0.4;
-  whisper.preload = 'auto';
+  var whisper = makeAudio('audio/acculoe-built-quiet.mp3', 0.4);
 
-  var piano = new Audio('audio/ambient-piano.mp3');
-  piano.volume = 0;
+  var piano = makeAudio('audio/ambient-piano.mp3', 0);
   piano.loop = true;
-  piano.preload = 'auto';
 
-  var click = new Audio('audio/click-soft.mp3');
-  click.volume = 0.15;
-  click.preload = 'auto';
-
-  var cart = new Audio('audio/cart-confirm.mp3');
-  cart.volume = 0.18;
-  cart.preload = 'auto';
-
-  /* ── Unlock all audio on first user gesture (mobile fix) ── */
-  function unlockAudio() {
-    if (unlocked) return;
-    unlocked = true;
-
-    [click, cart].forEach(function (a) {
-      var origVol = a.volume;
-      a.volume = 0;
-      a.play().then(function () {
-        a.pause();
-        a.currentTime = 0;
-        a.volume = origVol;
-      }).catch(function () {
-        a.volume = origVol;
-      });
-    });
-  }
+  var clickPool = makePool('audio/click-soft.mp3', 0.15, 4);
+  var cartPool = makePool('audio/cart-confirm.mp3', 0.18, 3);
 
   /* ── Fade helper ────────────────────────────── */
   function fadeTo(audio, target, duration) {
@@ -57,12 +68,18 @@
     }, interval);
   }
 
+  /* ── Unlock all pools (silent, on gate tap) ─── */
+  function unlockAll() {
+    clickPool.unlock();
+    cartPool.unlock();
+  }
+
   /* ── Start (called on gate enter) ───────────── */
   function start() {
     if (started) return;
     started = true;
 
-    unlockAudio();
+    unlockAll();
 
     if (muted) return;
 
@@ -75,6 +92,7 @@
 
     setTimeout(function () {
       if (!muted) {
+        piano.volume = 0;
         piano.currentTime = 0;
         piano.play().catch(function () {});
         fadeTo(piano, 0.18, 4000);
@@ -99,25 +117,12 @@
     return muted;
   }
 
-  /* ── UI sounds ──────────────────────────────── */
-  function playClick() {
-    if (muted) return;
-    click.currentTime = 0;
-    click.play().catch(function () {});
-  }
-
-  function playCart() {
-    if (muted) return;
-    cart.currentTime = 0;
-    cart.play().catch(function () {});
-  }
-
   /* ── Public API ─────────────────────────────── */
   window.AcculoeAudio = {
     start: start,
     toggleMute: toggleMute,
     isMuted: function () { return muted; },
-    playClick: playClick,
-    playCart: playCart
+    playClick: function () { clickPool.play(); },
+    playCart: function () { cartPool.play(); }
   };
 })();
