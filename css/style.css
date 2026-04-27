@@ -475,6 +475,7 @@ img {
   right: 0;
   width: 420px;
   height: 100vh;
+  height: 100dvh;
   z-index: 2001;
   background: rgba(18, 18, 18, 0.95);
   backdrop-filter: blur(30px);
@@ -483,6 +484,7 @@ img {
   transform: translateX(100%);
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   display: flex;
   flex-direction: column;
 }
@@ -517,6 +519,7 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .panel-image img {
@@ -589,6 +592,7 @@ img {
   right: 0;
   width: 420px;
   height: 100vh;
+  height: 100dvh;
   z-index: 2001;
   background: rgba(18, 18, 18, 0.95);
   backdrop-filter: blur(30px);
@@ -597,6 +601,7 @@ img {
   transform: translateX(100%);
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   display: flex;
   flex-direction: column;
   padding: 2rem;
@@ -846,38 +851,95 @@ img {
   }
 
   .hero {
-    min-height: 70vh;
+    min-height: 60vh;
+    height: 60vh;
   }
 
   .hero-bg {
-    background-image: url('../img/room-mobile.png');
+    background-position: center 40%;
   }
 
   .hero-text {
     left: 50%;
-    top: 35%;
+    top: 40%;
+  }
+
+  .hero-title {
+    font-size: 1.125rem;
+  }
+
+  .hero-tagline {
+    font-size: 0.75rem;
   }
 
   .hotspot {
     display: none;
   }
 
+  .scroll-cue {
+    bottom: 1rem;
+  }
+
   .collection {
-    padding: 4rem 1.25rem;
+    padding: 3rem 1rem;
+  }
+
+  .collection-heading {
+    margin-bottom: 2rem;
   }
 
   .product-grid {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 1.25rem;
   }
 
+  .product-card-body {
+    padding: 1.25rem;
+  }
+
+  /* --- PRODUCT PANEL MOBILE --- */
   .product-panel,
   .cart-panel {
     width: 100%;
+    border-left: none;
+  }
+
+  .panel-image {
+    aspect-ratio: 3 / 2;
+  }
+
+  .panel-content {
+    padding: 1.5rem;
+    padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .panel-name {
+    font-size: 1.125rem;
+  }
+
+  .panel-description {
+    font-size: 0.8125rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .panel-price {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .btn-add {
+    padding: 0.875rem;
+    border-radius: 8px;
+  }
+
+  /* --- CART PANEL MOBILE --- */
+  .cart-panel {
+    padding: 1.5rem;
+    padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
   }
 
   .brand-statement {
-    padding: 5rem 1.25rem;
+    padding: 4rem 1.25rem;
   }
 
   .brand-statement p {
@@ -886,5 +948,10 @@ img {
 
   .footer {
     padding: 3rem 1.25rem;
+  }
+
+  .mute-toggle {
+    bottom: 1rem;
+    left: 1rem;
   }
 }

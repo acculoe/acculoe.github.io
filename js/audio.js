@@ -3,6 +3,7 @@
 
   var muted = localStorage.getItem('acculoe-muted') === 'true';
   var started = false;
+  var unlocked = false;
 
   /* ── Audio elements ─────────────────────────── */
   var whisper = new Audio('audio/acculoe-built-quiet.mp3');
@@ -21,6 +22,24 @@
   var cart = new Audio('audio/cart-confirm.mp3');
   cart.volume = 0.18;
   cart.preload = 'auto';
+
+  /* ── Unlock all audio on first user gesture (mobile fix) ── */
+  function unlockAudio() {
+    if (unlocked) return;
+    unlocked = true;
+
+    [click, cart].forEach(function (a) {
+      var origVol = a.volume;
+      a.volume = 0;
+      a.play().then(function () {
+        a.pause();
+        a.currentTime = 0;
+        a.volume = origVol;
+      }).catch(function () {
+        a.volume = origVol;
+      });
+    });
+  }
 
   /* ── Fade helper ────────────────────────────── */
   function fadeTo(audio, target, duration) {
@@ -42,6 +61,9 @@
   function start() {
     if (started) return;
     started = true;
+
+    unlockAudio();
+
     if (muted) return;
 
     setTimeout(function () {
