@@ -49,7 +49,7 @@
         whisper.currentTime = 0;
         whisper.play().catch(function () {});
       }
-    }, 3000);
+    }, 1000);
 
     setTimeout(function () {
       if (!muted) {
@@ -57,7 +57,7 @@
         piano.play().catch(function () {});
         fadeTo(piano, 0.18, 4000);
       }
-    }, 6000);
+    }, 4000);
   }
 
   /* ── Mute toggle ────────────────────────────── */
