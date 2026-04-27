@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acculoe — Built Quiet.</title>
+  <meta name="description" content="Every detail, deliberate. Every product, chosen. Your room, elevated.">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* --- ENTRY GATE (inline so it loads instantly) --- */
+    .gate {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #0a0a0a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 1.2s ease, visibility 1.2s ease;
+    }
+    .gate.gone {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .gate-logo {
+      font-family: 'Satoshi', 'Inter', -apple-system, sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: #f5f5f0;
+      opacity: 0;
+      animation: gateFade 1.5s ease 0.3s forwards;
+    }
+    .gate-tagline {
+      font-family: 'Satoshi', 'Inter', -apple-system, sans-serif;
+      font-size: 0.8125rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      color: #7a7a7a;
+      margin-top: 0.625rem;
+      opacity: 0;
+      animation: gateFade 1.5s ease 1s forwards;
+    }
+    .gate-enter {
+      margin-top: 3.5rem;
+      font-family: 'Satoshi', 'Inter', -apple-system, sans-serif;
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: lowercase;
+      color: #7a7a7a;
+      background: none;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 0.75rem 2.5rem;
+      border-radius: 100px;
+      cursor: pointer;
+      opacity: 0;
+      animation: gateFade 1.5s ease 1.8s forwards;
+      transition: border-color 0.5s ease, color 0.5s ease;
+    }
+    .gate-enter:hover {
+      border-color: rgba(212, 165, 116, 0.4);
+      color: #d4a574;
+    }
+    @keyframes gateFade {
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== ENTRY GATE ===== -->
+  <div class="gate" id="gate">
+    <div class="gate-logo">ACCULOE</div>
+    <div class="gate-tagline">Built Quiet.</div>
+    <button class="gate-enter" id="gate-enter">enter</button>
+  </div>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav class="nav" id="nav">
+    <a href="/" class="nav-logo">ACCULOE</a>
+    <div class="nav-links">
+      <a href="#collection">Shop</a>
+      <a href="about.html">About</a>
+      <a href="#" id="cart-toggle">Cart (<span class="nav-cart-count" id="cart-count">0</span>)</a>
+    </div>
+  </nav>
+
+  <!-- ===== HERO / ROOM ===== -->
+  <section class="hero" id="hero">
+    <div class="hero-gradient"></div>
+    <div class="hero-bg" id="hero-bg"></div>
+
+    <!-- Room hotspots — positioned via CSS percentage -->
+    <div class="hotspot" id="hotspot-sunset-lamp" style="left:15%;top:25%" data-product="sunset-lamp">
+      <span class="hotspot-label">Sunset Projection Lamp</span>
+    </div>
+    <div class="hotspot" id="hotspot-light-bar" style="left:48%;top:18%" data-product="light-bar">
+      <span class="hotspot-label">Monitor Light Bar</span>
+    </div>
+    <div class="hotspot" id="hotspot-diffuser" style="left:22%;top:48%" data-product="diffuser">
+      <span class="hotspot-label">Wood Grain Aroma Diffuser</span>
+    </div>
+    <div class="hotspot" id="hotspot-keyboard" style="left:48%;top:62%" data-product="keyboard">
+      <span class="hotspot-label">75% Mechanical Keyboard</span>
+    </div>
+    <div class="hotspot" id="hotspot-desk-mat" style="left:48%;top:70%" data-product="desk-mat">
+      <span class="hotspot-label">Oversized Felt Desk Mat</span>
+    </div>
+    <div class="hotspot" id="hotspot-mug-warmer" style="left:68%;top:58%" data-product="mug-warmer">
+      <span class="hotspot-label">USB Mug Warmer</span>
+    </div>
+    <div class="hotspot" id="hotspot-quiet-fan" style="left:78%;top:45%" data-product="quiet-fan">
+      <span class="hotspot-label">Bladeless Quiet Desk Fan</span>
+    </div>
+
+    <div class="hero-text">
+      <h1 class="hero-title">ACCULOE</h1>
+      <p class="hero-tagline">Built Quiet.</p>
+    </div>
+
+    <div class="scroll-cue">
+      <span>Scroll</span>
+      <div class="scroll-cue-line"></div>
+    </div>
+  </section>
+
+  <!-- ===== COLLECTION ===== -->
+  <section class="collection" id="collection">
+    <h2 class="collection-heading">Everything here was chosen.</h2>
+    <div class="product-grid" id="product-grid">
+      <!-- JS populates from products.json -->
+    </div>
+  </section>
+
+  <!-- ===== BRAND STATEMENT ===== -->
+  <section class="brand-statement">
+    <p>Every detail, deliberate. Every product, chosen. Your room, elevated.</p>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-logo">ACCULOE</div>
+    <div class="footer-tagline">Built Quiet.</div>
+    <div class="footer-social">
+      <a href="https://instagram.com/acculoe" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5"/>
+          <circle cx="12" cy="12" r="5"/>
+          <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+      </a>
+      <a href="https://tiktok.com/@acculoe" target="_blank" rel="noopener" aria-label="TikTok">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V8.87a8.16 8.16 0 004.76 1.52v-3.4a4.85 4.85 0 01-1-.3z"/>
+        </svg>
+      </a>
+    </div>
+    <div class="footer-email">hello@acculoe.com</div>
+    <div class="footer-links">
+      <a href="#">Shipping</a>
+      <a href="#">Returns</a>
+      <a href="about.html">About</a>
+    </div>
+    <div class="footer-copy">&copy; 2025 Acculoe</div>
+  </footer>
+
+  <!-- ===== PRODUCT DETAIL PANEL ===== -->
+  <div class="panel-overlay" id="panel-overlay"></div>
+  <div class="product-panel" id="product-panel">
+    <button class="panel-close" id="panel-close">&times;</button>
+    <div class="panel-image" id="panel-image"></div>
+    <div class="panel-content">
+      <h2 class="panel-name" id="panel-name"></h2>
+      <p class="panel-tagline" id="panel-tagline"></p>
+      <p class="panel-description" id="panel-description"></p>
+      <div class="panel-price" id="panel-price"></div>
+      <button class="btn-add" id="btn-add">Add to Room</button>
+    </div>
+  </div>
+
+  <!-- ===== CART PANEL ===== -->
+  <div class="cart-panel" id="cart-panel">
+    <div class="cart-header">
+      <span class="cart-title">Your Room</span>
+      <button class="panel-close" id="cart-close">&times;</button>
+    </div>
+    <div class="cart-items" id="cart-items">
+      <div class="cart-empty" id="cart-empty">Nothing here yet.</div>
+    </div>
+    <div class="cart-footer" id="cart-footer" style="display:none">
+      <div class="cart-subtotal">
+        <span class="cart-subtotal-label">Subtotal</span>
+        <span class="cart-subtotal-value" id="cart-subtotal">\$0.00</span>
+      </div>
+      <button class="btn-checkout" id="btn-checkout">Continue to Checkout</button>
+      <a href="#" class="cart-continue" id="cart-continue-shopping">Continue Shopping</a>
+    </div>
+  </div>
+
+  <!-- ===== MUTE TOGGLE ===== -->
+  <div class="mute-toggle" id="mute-toggle">
+    <div class="mute-bar"></div>
+    <div class="mute-bar"></div>
+    <div class="mute-bar"></div>
+  </div>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script src="js/audio.js"></script>
+  <script src="js/transitions.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/room.js"></script>
+</body>
+</html>
