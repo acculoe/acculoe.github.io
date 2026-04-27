@@ -1,0 +1,93 @@
+[
+  {
+    "id": "sunset-lamp",
+    "name": "Sunset Projection Lamp",
+    "tagline": "Golden hour. Any hour.",
+    "description": "Warm amber light that turns your wall into a permanent sunset. Rotation adjusts the angle. USB powered. No bulb to replace. Just plug in and let the room change.",
+    "price": 39.99,
+    "stripe_price_id": "price_PLACEHOLDER",
+    "image": "img/products/sunset-lamp.jpg",
+    "category": "lighting",
+    "room_position": { "x": 15, "y": 25 },
+    "room_glow_color": "#d4a574",
+    "active": true
+  },
+  {
+    "id": "quiet-fan",
+    "name": "Bladeless Quiet Desk Fan",
+    "tagline": "Air that doesn't announce itself.",
+    "description": "Moves air without moving sound. Bladeless design, touch controls, three speeds that all sound like silence. Keeps you cool without breaking the room.",
+    "price": 49.99,
+    "stripe_price_id": "price_PLACEHOLDER",
+    "image": "img/products/quiet-fan.jpg",
+    "category": "air",
+    "room_position": { "x": 78, "y": 45 },
+    "room_glow_color": "#d4a574",
+    "active": true
+  },
+  {
+    "id": "keyboard",
+    "name": "75% Mechanical Keyboard",
+    "tagline": "Every keystroke, intentional.",
+    "description": "Gasket-mounted. Pre-lubed switches. PBT keycaps that won't shine. The sound is deep, dampened, satisfying. This is the centerpiece of the desk.",
+    "price": 129.00,
+    "stripe_price_id": "price_PLACEHOLDER",
+    "image": "img/products/keyboard.jpg",
+    "category": "input",
+    "room_position": { "x": 48, "y": 62 },
+    "room_glow_color": "#d4a574",
+    "active": true
+  },
+  {
+    "id": "desk-mat",
+    "name": "Oversized Felt Desk Mat",
+    "tagline": "The foundation of focus.",
+    "description": "900 x 400mm of dark felt. Soft under your wrists. Quiet under your mouse. The base layer everything else sits on. Stitched edges that won't fray.",
+    "price": 34.99,
+    "stripe_price_id": "price_PLACEHOLDER",
+    "image": "img/products/desk-mat.jpg",
+    "category": "desk",
+    "room_position": { "x": 48, "y": 70 },
+    "room_glow_color": "#d4a574",
+    "active": true
+  },
+  {
+    "id": "diffuser",
+    "name": "Wood Grain Aroma Diffuser",
+    "tagline": "Breathe your room in.",
+    "description": "Ultrasonic mist with a warm LED glow. Wood grain shell that belongs on the desk, not hidden in a corner. Add any essential oil. The room gains a new dimension.",
+    "price": 39.99,
+    "stripe_price_id": "price_PLACEHOLDER",
+    "image": "img/products/diffuser.jpg",
+    "category": "air",
+    "room_position": { "x": 22, "y": 48 },
+    "room_glow_color": "#d4a574",
+    "active": true
+  },
+  {
+    "id": "mug-warmer",
+    "name": "USB Mug Warmer",
+    "tagline": "Your coffee never goes cold.",
+    "description": "Ceramic heating surface. Wood base. USB powered from your monitor or laptop. Set your mug down and forget about it. It stays warm until you reach for it.",
+    "price": 29.99,
+    "stripe_price_id": "price_PLACEHOLDER",
+    "image": "img/products/mug-warmer.jpg",
+    "category": "ritual",
+    "room_position": { "x": 68, "y": 58 },
+    "room_glow_color": "#d4a574",
+    "active": true
+  },
+  {
+    "id": "light-bar",
+    "name": "Monitor Light Bar",
+    "tagline": "Glow without the glare.",
+    "description": "Clips to the top of any monitor. Warm and cool toggle. Lights your desk without reflecting on screen. The only overhead light this room needs.",
+    "price": 44.99,
+    "stripe_price_id": "price_PLACEHOLDER",
+    "image": "img/products/light-bar.jpg",
+    "category": "lighting",
+    "room_position": { "x": 48, "y": 18 },
+    "room_glow_color": "#8ecae6",
+    "active": true
+  }
+]
