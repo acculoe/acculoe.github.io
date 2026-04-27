@@ -140,19 +140,19 @@ img {
 }
 
 .hero-title {
-  font-size: 1.5rem;
+  font-size: 2.75rem;
   font-weight: 700;
   letter-spacing: 0.2em;
   margin-bottom: 0.75rem;
-  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.8);
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.9), 0 0 60px rgba(0, 0, 0, 0.6);
 }
 
 .hero-tagline {
-  font-size: 0.875rem;
+  font-size: 1.125rem;
   font-weight: 400;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   color: #c0c0c0;
-  text-shadow: 0 2px 15px rgba(0, 0, 0, 0.9);
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.9);
 }
 
 @keyframes heroTextFade {
@@ -169,7 +169,14 @@ img {
   cursor: pointer;
   z-index: 20;
   transform: translate(-50%, -50%);
-  transition: transform 0.5s ease;
+  transition: transform 0.5s ease, opacity 0.8s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hotspot.visible {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .hotspot::before {
@@ -874,7 +881,7 @@ img {
     aspect-ratio: 16 / 10;
   }
 
-   .hero-text {
+  .hero-text {
     left: 50%;
     top: auto !important;
     bottom: 0;
@@ -882,15 +889,15 @@ img {
   }
 
   .hero-title {
-    font-size: 1rem;
+    font-size: 1.5rem;
     letter-spacing: 0.15em;
   }
 
   .hero-tagline {
-    font-size: 0.6875rem;
+    font-size: 0.875rem;
   }
 
-   .scroll-cue {
+  .scroll-cue {
     display: none;
   }
 

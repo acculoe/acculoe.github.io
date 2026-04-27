@@ -100,6 +100,18 @@
     return null;
   }
 
+  /* --- Show hotspots with staggered fade --- */
+  function showHotspots() {
+    var hotspots = document.querySelectorAll('.hotspot');
+    for (var i = 0; i < hotspots.length; i++) {
+      (function (hotspot, index) {
+        setTimeout(function () {
+          hotspot.classList.add('visible');
+        }, index * 120);
+      })(hotspots[i], i);
+    }
+  }
+
   /* --- Open product panel --- */
   function openPanel(product) {
     currentProduct = product;
@@ -186,9 +198,28 @@
 
       var heroBg = document.getElementById('hero-bg');
       if (heroBg) {
-        setTimeout(function () {
-          heroBg.classList.add('loaded');
-        }, 400);
+        /* Check if room image already loaded while gate was showing */
+        if (heroBg.getAttribute('data-loaded') === 'true') {
+          setTimeout(function () {
+            heroBg.classList.add('loaded');
+          }, 400);
+          /* Show hotspots after room fades in (400ms delay + 1500ms fade) */
+          setTimeout(function () {
+            showHotspots();
+          }, 2200);
+        } else {
+          /* Room not loaded yet — wait for it */
+          var checkInterval = setInterval(function () {
+            if (heroBg.getAttribute('data-loaded') === 'true') {
+              clearInterval(checkInterval);
+              heroBg.classList.add('loaded');
+              /* Show hotspots after room fade completes */
+              setTimeout(function () {
+                showHotspots();
+              }, 1800);
+            }
+          }, 100);
+        }
       }
 
       setTimeout(function () {
@@ -258,6 +289,7 @@
       });
     }
 
+    /* Preload room image */
     var heroBg = document.getElementById('hero-bg');
     if (heroBg) {
       var img = new Image();
