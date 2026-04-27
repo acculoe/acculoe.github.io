@@ -8,6 +8,7 @@
 
   var products = [];
   var currentProduct = null;
+  var roomImageReady = false;
 
   /* --- Load products.json --- */
   function loadProducts() {
@@ -182,6 +183,27 @@
     }
   }
 
+  /* --- Fade in room and then hotspots --- */
+  function revealRoom() {
+    var heroBg = document.getElementById('hero-bg');
+    if (!heroBg) return;
+
+    if (roomImageReady) {
+      heroBg.classList.add('loaded');
+      /* Hotspots appear after room fade (1.5s CSS transition) + small buffer */
+      setTimeout(showHotspots, 1800);
+    } else {
+      /* Image still loading — poll until ready */
+      var check = setInterval(function () {
+        if (roomImageReady) {
+          clearInterval(check);
+          heroBg.classList.add('loaded');
+          setTimeout(showHotspots, 1800);
+        }
+      }, 100);
+    }
+  }
+
   /* --- Entry Gate --- */
   function initGate() {
     var gate = document.getElementById('gate');
@@ -190,43 +212,23 @@
     if (!gate || !enterBtn) return;
 
     enterBtn.addEventListener('click', function () {
-      gate.classList.add('gone');
-
+      /* 1. Start audio immediately */
       if (window.AcculoeAudio) {
         window.AcculoeAudio.start();
       }
 
-      var heroBg = document.getElementById('hero-bg');
-      if (heroBg) {
-        /* Check if room image already loaded while gate was showing */
-        if (heroBg.getAttribute('data-loaded') === 'true') {
-          setTimeout(function () {
-            heroBg.classList.add('loaded');
-          }, 400);
-          /* Show hotspots after room fades in (400ms delay + 1500ms fade) */
-          setTimeout(function () {
-            showHotspots();
-          }, 2200);
-        } else {
-          /* Room not loaded yet — wait for it */
-          var checkInterval = setInterval(function () {
-            if (heroBg.getAttribute('data-loaded') === 'true') {
-              clearInterval(checkInterval);
-              heroBg.classList.add('loaded');
-              /* Show hotspots after room fade completes */
-              setTimeout(function () {
-                showHotspots();
-              }, 1800);
-            }
-          }, 100);
-        }
-      }
+      /* 2. Dissolve gate */
+      gate.classList.add('gone');
 
+      /* 3. Start room reveal (separate from audio) */
+      setTimeout(revealRoom, 300);
+
+      /* 4. Remove gate from DOM after fade completes */
       setTimeout(function () {
         if (gate.parentNode) {
           gate.parentNode.removeChild(gate);
         }
-      }, 1500);
+      }, 1000);
     });
   }
 
@@ -289,15 +291,12 @@
       });
     }
 
-    /* Preload room image */
-    var heroBg = document.getElementById('hero-bg');
-    if (heroBg) {
-      var img = new Image();
-      img.onload = function () {
-        heroBg.setAttribute('data-loaded', 'true');
-      };
-      img.src = 'img/room.png';
-    }
+    /* Preload room image in background while gate is showing */
+    var img = new Image();
+    img.onload = function () {
+      roomImageReady = true;
+    };
+    img.src = 'img/room.png';
   }
 
   if (document.readyState === 'loading') {
