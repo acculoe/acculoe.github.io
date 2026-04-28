@@ -1074,3 +1074,10 @@ img {
     height: 36px;
   }
 }
+.product-shipping {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 0.8125rem;
+  color: #7a7a7a;
+  letter-spacing: 0.03em;
+  margin-top: 0.5rem;
+}
