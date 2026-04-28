@@ -7,7 +7,7 @@
   'use strict';
 
   /* --- Config --- */
-  var WORKER_URL = 'https://acculoe-checkout.YOUR_SUBDOMAIN.workers.dev';
+  var WORKER_URL = 'https://acculoe-checkout.acculoe.workers.dev';
   /* Replace YOUR_SUBDOMAIN with your Cloudflare Workers subdomain once set up */
 
   /* --- State --- */
