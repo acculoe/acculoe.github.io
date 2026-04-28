@@ -6,7 +6,7 @@
 
   /* ── Audio elements ─────────────────────────── */
   var whisper = new Audio('audio/acculoe-built-quiet.mp3');
-  whisper.volume = 0.15;
+  whisper.volume = 0.08;
   whisper.preload = 'auto';
 
   var piano = new Audio('audio/ambient-piano.mp3');
