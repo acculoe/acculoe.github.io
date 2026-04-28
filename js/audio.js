@@ -57,7 +57,7 @@
         piano.volume = 0;
         piano.currentTime = 0;
         piano.play().catch(function () {});
-        fadeTo(piano, 0.18, 4000);
+        fadeTo(piano, 0.10, 4000);
       }
     }, 4000);
   }
@@ -73,7 +73,7 @@
     } else if (started) {
       piano.volume = 0;
       piano.play().catch(function () {});
-      fadeTo(piano, 0.18, 2000);
+      fadeTo(piano, 0.10, 2000);
     }
 
     return muted;
