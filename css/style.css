@@ -131,8 +131,8 @@ img {
 .hero-text {
   position: absolute;
   z-index: 10;
-  left: 46%;
-  top: 28%;
+  left: 50%;
+  top: 15%;
   transform: translate(-50%, -50%);
   text-align: center;
   opacity: 0;
