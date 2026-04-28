@@ -391,10 +391,15 @@ img {
 }
 
 /* --- FOOTER --- */
-.footer {
+.site-footer {
   padding: 4rem 2.5rem;
-  text-align: center;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-content {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
 }
 
 .footer-logo {
@@ -441,6 +446,7 @@ img {
   display: flex;
   justify-content: center;
   gap: 1.5rem;
+  flex-wrap: wrap;
   margin-bottom: 2rem;
 }
 
@@ -1053,7 +1059,7 @@ img {
   }
 
   /* --- FOOTER --- */
-  .footer {
+  .site-footer {
     padding: 2.5rem 1rem;
   }
 
